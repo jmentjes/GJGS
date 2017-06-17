@@ -1,10 +1,9 @@
-package de.github.GSGJ.com.impl;
+package de.github.GSGJ.com;
 
-import de.github.GSGJ.com.Server;
-import de.github.GSGJ.com.ServerEvent;
-import de.github.GSGJ.com.ServerEventListener;
-import de.github.GSGJ.com.ServerEventType;
-import org.json.simple.parser.JSONParser;
+import de.github.GSGJ.API.worker.Worker;
+import de.github.GSGJ.API.structure.ServerEvent;
+import de.github.GSGJ.API.structure.ServerEventType;
+import de.github.GSGJ.structure.ServerEventImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.webbitserver.BaseWebSocketHandler;
@@ -14,22 +13,19 @@ import org.webbitserver.WebSocketConnection;
 import org.webbitserver.handler.StaticFileHandler;
 
 import java.net.URISyntaxException;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Kojy on 17.06.2017.
  */
 public class ServerImpl extends BaseWebSocketHandler implements Server {
-    protected List<ServerEventListener> listeners;
     protected WebServer webServer;
-    protected JSONParser parser;
     protected Logger logger = LoggerFactory.getLogger(ServerImpl.class);
+    protected Worker<ServerEvent> worker;
 
-    public ServerImpl() {
+    public ServerImpl(Worker<ServerEvent> worker, int port) {
         try {
-            webServer = WebServers.createWebServer(8080)
+            webServer = WebServers.createWebServer(port)
                     .add(new StaticFileHandler(getClass().getResource("/html").toURI().getPath()))
                     .add("/server", this)
                     .start()
@@ -39,51 +35,46 @@ public class ServerImpl extends BaseWebSocketHandler implements Server {
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
-
-        this.listeners = new LinkedList<>();
-        this.parser = new JSONParser();
-
+        this.worker = worker;
         logger.info("Hello World from Server! Server is running on {}", webServer.getUri().toString());
     }
 
-
     @Override
-    public void addServerEventListener(ServerEventListener eventListener) {
-        this.listeners.add(eventListener);
+    public void start() {
+        this.webServer.start();
     }
 
     @Override
-    public void removeServerEventListener(ServerEventListener eventListener) {
-        this.listeners.remove(eventListener);
+    public void stop() {
+        this.webServer.stop();
     }
 
     @Override
     public void onOpen(WebSocketConnection webSocketConnection) {
-        notifyListener(ServerEventType.OPEN, webSocketConnection, "");
+        notifyWorker(ServerEventType.OPEN, webSocketConnection, "");
     }
 
     @Override
     public void onClose(WebSocketConnection webSocketConnection) {
-        notifyListener(ServerEventType.CLOSE, webSocketConnection, "");
+        notifyWorker(ServerEventType.CLOSE, webSocketConnection, "");
     }
 
     @Override
     public void onMessage(WebSocketConnection webSocketConnection, String s) throws Throwable {
-        notifyListener(ServerEventType.MESSAGE, webSocketConnection, s);
+        notifyWorker(ServerEventType.MESSAGE, webSocketConnection, s);
     }
 
     @Override
     public void onPing(WebSocketConnection webSocketConnection, byte[] bytes) throws Throwable {
-        notifyListener(ServerEventType.PING, webSocketConnection, "Ping");
+        notifyWorker(ServerEventType.PING, webSocketConnection, "Ping");
     }
 
-    private void notifyListener(ServerEventType type, WebSocketConnection connection, String message) {
-        notifyListeners(new ServerEventImpl(message, this, connection, type));
+    private void notifyWorker(ServerEventType eventType, WebSocketConnection connection, String message){
+        this.notifyWorker(new ServerEventImpl(message, connection, eventType));
     }
 
-    private void notifyListeners(ServerEvent event) {
-        for (ServerEventListener listener : listeners) {
-            listener.handleEvent(event);
-        }
+    private void notifyWorker(ServerEvent event){
+        this.worker.processData(event);
     }
+
 }

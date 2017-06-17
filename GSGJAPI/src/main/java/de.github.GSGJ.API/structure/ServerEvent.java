@@ -1,4 +1,4 @@
-package de.github.GSGJ.com;
+package de.github.GSGJ.API.structure;
 
 import org.webbitserver.WebSocketConnection;
 
@@ -7,8 +7,6 @@ import org.webbitserver.WebSocketConnection;
  */
 public interface ServerEvent {
     String getMessage();
-
-    Server getServer();
 
     WebSocketConnection getConnection();
 

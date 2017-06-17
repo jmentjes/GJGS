@@ -1,4 +1,4 @@
-package de.github.GSGJ.com;
+package de.github.GSGJ.API.structure;
 
 /**
  * Created by Kojy on 17.06.2017.

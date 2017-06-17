@@ -1,8 +1,7 @@
-package de.github.GSGJ.com.impl;
+package de.github.GSGJ.structure;
 
-import de.github.GSGJ.com.Server;
-import de.github.GSGJ.com.ServerEvent;
-import de.github.GSGJ.com.ServerEventType;
+import de.github.GSGJ.API.structure.ServerEvent;
+import de.github.GSGJ.API.structure.ServerEventType;
 import org.webbitserver.WebSocketConnection;
 
 /**
@@ -10,26 +9,18 @@ import org.webbitserver.WebSocketConnection;
  */
 public class ServerEventImpl implements ServerEvent {
     private String message;
-    private Server server;
     private WebSocketConnection connection;
     private ServerEventType eventType;
 
-    public ServerEventImpl(String message, Server server, WebSocketConnection connection, ServerEventType eventType) {
+    public ServerEventImpl(String message, WebSocketConnection connection, ServerEventType eventType) {
         this.message = message;
-        this.server = server;
         this.connection = connection;
         this.eventType = eventType;
     }
 
-
     @Override
     public String getMessage() {
         return message;
-    }
-
-    @Override
-    public Server getServer() {
-        return server;
     }
 
     @Override

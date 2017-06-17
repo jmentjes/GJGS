@@ -1,4 +1,4 @@
-package de.github.GSGJ.API.properties;
+package de.github.GSGJ.util;
 
 /**
  * Created by Kojy on 17.06.2017.
