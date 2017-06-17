@@ -6,8 +6,10 @@ import de.github.GSGJ.API.service.Service;
 import de.github.GSGJ.API.worker.AbstractWorker;
 import de.github.GSGJ.API.structure.ServerEvent;
 import de.github.GSGJ.API.service.GSGJServiceRegistry;
+import de.github.GSGJ.services.chatmanagement.ChatManagementService;
 import de.github.GSGJ.services.gamemanagement.GameManagementService;
 import de.github.GSGJ.services.lobbymanagement.LobbyManagementService;
+import de.github.GSGJ.services.requestmanagement.RequestManagementService;
 import de.github.GSGJ.services.usermanagement.UserManagementService;
 
 import java.util.LinkedList;
@@ -27,17 +29,17 @@ public class GSGJWorker extends AbstractWorker<ServerEvent> implements GSGJServi
     }
 
     private void initBaseServices(){
-        Thread usermanagement = new Thread(new UserManagementService(this));
-        usermanagement.setDaemon(true);
-        usermanagement.start();
+        createThread(new UserManagementService(this));
+        createThread(new LobbyManagementService(this));
+        createThread(new GameManagementService(this));
+        createThread(new ChatManagementService(this));
+        createThread(new RequestManagementService(this));
+    }
 
-        Thread lobbymanagement = new Thread(new LobbyManagementService(this));
-        lobbymanagement.setDaemon(true);
-        lobbymanagement.start();
-
-        Thread gamemanagement = new Thread(new GameManagementService(this));
-        gamemanagement.setDaemon(true);
-        gamemanagement.start();
+    private void createThread(AbstractBaseService service){
+        Thread t = new Thread(service);
+        t.setDaemon(true);
+        t.start();
     }
 
     @Override

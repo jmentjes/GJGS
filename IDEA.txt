@@ -23,6 +23,15 @@ Features
 -> GameManagement
     -> Run GameLogic
     -> Uses GameApi to run the game
+-> ChatManagement
+    -> spreads chat messages for global, private and group chats
+-> RequestManagement
+    -> lets clients request information
+    -> information
+        -> Logged in Users
+        -> Available Games
+        -> Users which play game xy
+        -> etc
 
 
 
