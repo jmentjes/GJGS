@@ -13,28 +13,29 @@ import java.util.Properties;
  * Read Properties from a Config File
  * Created by Kojy on 02.05.2016.
  */
-public class PropertyHandlerImpl implements PropertyHandler{
+public class PropertyHandlerImpl implements PropertyHandler {
     private Properties properties;
     private Logger logger = LoggerFactory.getLogger(PropertyHandlerImpl.class);
 
     /**
      * Constructor with build in FileName or Pathname
+     *
      * @param filename
      */
-    public PropertyHandlerImpl(String directory, String filename){
+    public PropertyHandlerImpl(String directory, String filename) {
         String currentDir = "";
         this.properties = new Properties();
 
         try {
             currentDir = this.getCurrentDirectory();
         } catch (Exception e) {
-            logger.error(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
         }
 
         if (!currentDir.equals("")) {
             if (checkIfJar(currentDir)) {
                 // we are running inside jar
-                directory = new File(currentDir).getParentFile().getPath() +  "/config";
+                directory = new File(currentDir).getParentFile().getPath() + "/config";
             } else {
                 directory = currentDir + "config";
             }
@@ -49,19 +50,21 @@ public class PropertyHandlerImpl implements PropertyHandler{
                     this.properties.load(new FileInputStream(propertyFile));
                 }
             } catch (IOException e) {
-                logger.error(e.getMessage(),e);
+                logger.error(e.getMessage(), e);
             }
         } else {
             logger.error("Directory config does not exist!");
         }
 
     }
+
     /**
      * read a line from the Configuration data
+     *
      * @param key
      * @return
      */
-    public String read(String key){
+    public String read(String key) {
         key.toLowerCase();
         // return value can be null if the specified key is not found
         return properties.getProperty(key);
@@ -69,7 +72,7 @@ public class PropertyHandlerImpl implements PropertyHandler{
 
     @Override
     public boolean write(String key, String value) {
-        Object obj = properties.put(key,value);
+        Object obj = properties.put(key, value);
         return obj != null;
     }
 
@@ -79,6 +82,7 @@ public class PropertyHandlerImpl implements PropertyHandler{
 
     /**
      * Executes a check if the currently started server application is started from a jar
+     *
      * @param currentDir the current directory
      * @return
      */

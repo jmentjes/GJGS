@@ -5,5 +5,6 @@ package de.github.GSGJ.API.properties;
  */
 public interface PropertyHandler {
     String read(String key);
+
     boolean write(String key, String value);
 }

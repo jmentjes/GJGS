@@ -14,23 +14,23 @@ public abstract class AbstractWorker<T> implements Worker<T> {
     protected List<T> queue = new LinkedList<T>();
 
     @Override
-    public void processData(T obj){
-        synchronized (queue){
+    public void processData(T obj) {
+        synchronized (queue) {
             queue.add(obj);
             queue.notify();
         }
     }
 
     @Override
-    public void run(){
+    public void run() {
         T obj;
-        while (true){
-            synchronized (queue){
-                while (queue.isEmpty()){
+        while (true) {
+            synchronized (queue) {
+                while (queue.isEmpty()) {
                     try {
                         queue.wait();
-                    } catch (InterruptedException e){
-                        logger.error(e.getMessage(),e);
+                    } catch (InterruptedException e) {
+                        logger.error(e.getMessage(), e);
                     }
                 }
                 obj = queue.remove(0);
