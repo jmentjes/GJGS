@@ -9,8 +9,9 @@ DataBase Stuff
 
 General Stuff
 -> Structure of the server should be like an event based system
--> Server is completly independent of the game itself
-
+-> Server is completely independent of the game itself
+-> Server accepts game classes from client to run a developed game
+-> use index html to let the user upload GameFiles
 
 Features
 -> Usermanagement
@@ -22,3 +23,6 @@ Features
 -> GameManagement
     -> Run GameLogic
     -> Uses GameApi to run the game
+
+
+

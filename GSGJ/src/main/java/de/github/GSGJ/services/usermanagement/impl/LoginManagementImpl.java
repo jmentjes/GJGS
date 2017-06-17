@@ -10,11 +10,11 @@ import org.json.simple.JSONObject;
 public class LoginManagementImpl implements LoginManagement {
     @Override
     public void login(User user, JSONObject object) {
-
+        //TODO login user
     }
 
     @Override
     public void logout(User user, JSONObject object) {
-
+        //TODO logout user
     }
 }

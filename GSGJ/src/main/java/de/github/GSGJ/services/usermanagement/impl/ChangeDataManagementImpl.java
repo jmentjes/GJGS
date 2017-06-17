@@ -10,6 +10,6 @@ import org.json.simple.JSONObject;
 public class ChangeDataManagementImpl implements ChangeDataManagement {
     @Override
     public void changeData(User user, JSONObject object) {
-
+        //TODO change data for user
     }
 }

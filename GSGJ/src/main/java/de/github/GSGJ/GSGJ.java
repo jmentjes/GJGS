@@ -5,7 +5,7 @@ import de.github.GSGJ.util.PropertyHandlerImpl;
 import de.github.GSGJ.API.worker.Worker;
 import de.github.GSGJ.com.Server;
 import de.github.GSGJ.API.structure.ServerEvent;
-import de.github.GSGJ.com.ServerImpl;
+import de.github.GSGJ.com.impl.ServerImpl;
 import de.github.GSGJ.structure.GSGJWorker;
 
 /**

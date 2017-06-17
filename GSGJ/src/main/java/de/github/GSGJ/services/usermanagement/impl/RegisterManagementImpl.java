@@ -10,11 +10,11 @@ import org.json.simple.JSONObject;
 public class RegisterManagementImpl implements RegisterManagement {
     @Override
     public void register(User user, JSONObject object) {
-
+        //TODO register user
     }
 
     @Override
     public void delete(User user, JSONObject object) {
-
+        //TODO delete user
     }
 }

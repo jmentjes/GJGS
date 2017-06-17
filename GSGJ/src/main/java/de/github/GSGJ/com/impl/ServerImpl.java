@@ -1,8 +1,9 @@
-package de.github.GSGJ.com;
+package de.github.GSGJ.com.impl;
 
 import de.github.GSGJ.API.worker.Worker;
 import de.github.GSGJ.API.structure.ServerEvent;
 import de.github.GSGJ.API.structure.ServerEventType;
+import de.github.GSGJ.com.Server;
 import de.github.GSGJ.structure.ServerEventImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

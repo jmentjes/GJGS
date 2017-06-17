@@ -15,6 +15,6 @@ public class GameManagementService extends AbstractBaseService {
 
     @Override
     public void handle(ServerEvent obj) {
-
+        //TODO handle gamemanagement
     }
 }

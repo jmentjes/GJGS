@@ -16,6 +16,6 @@ public class LobbyManagementService extends AbstractBaseService {
 
     @Override
     public void handle(ServerEvent obj) {
-
+        //TODO handle lobby management
     }
 }

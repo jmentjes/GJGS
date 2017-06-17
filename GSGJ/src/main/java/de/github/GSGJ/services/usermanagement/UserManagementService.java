@@ -38,7 +38,7 @@ public class UserManagementService extends AbstractBaseService {
         JSONObject jsonObject = createJSONObject(obj.getMessage());
         if(jsonObject == null) return;
 
-        //TODO
+        //TODO handle usermanagement
 
         switch (obj.getEventType()){
             case MESSAGE:
