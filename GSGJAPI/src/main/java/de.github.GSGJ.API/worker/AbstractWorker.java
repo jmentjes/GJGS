@@ -1,4 +1,4 @@
-package de.github.GSGJ.API;
+package de.github.GSGJ.API.worker;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +36,6 @@ public abstract class AbstractWorker<T> implements Worker<T> {
                 obj = queue.remove(0);
             }
             handle(obj);
-
         }
     }
 

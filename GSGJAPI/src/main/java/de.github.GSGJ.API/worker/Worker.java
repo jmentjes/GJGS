@@ -1,4 +1,4 @@
-package de.github.GSGJ.API;
+package de.github.GSGJ.API.worker;
 
 /**
  * Created by Kojy on 17.06.2017.
