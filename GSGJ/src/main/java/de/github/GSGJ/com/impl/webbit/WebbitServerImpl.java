@@ -1,10 +1,11 @@
-package de.github.GSGJ.com.impl;
+package de.github.GSGJ.com.impl.webbit;
 
 import de.github.GSGJ.API.structure.ServerEvent;
 import de.github.GSGJ.API.structure.ServerEventType;
 import de.github.GSGJ.API.worker.Worker;
+import de.github.GSGJ.API.structure.Connection;
 import de.github.GSGJ.com.Server;
-import de.github.GSGJ.com.ServerEventImpl;
+import de.github.GSGJ.com.impl.ServerEventImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.webbitserver.BaseWebSocketHandler;
@@ -19,12 +20,12 @@ import java.util.concurrent.ExecutionException;
 /**
  * Created by Kojy on 17.06.2017.
  */
-public class ServerImpl extends BaseWebSocketHandler implements Server {
+public class WebbitServerImpl extends BaseWebSocketHandler implements Server {
     protected WebServer webServer;
-    protected Logger logger = LoggerFactory.getLogger(ServerImpl.class);
+    protected Logger logger = LoggerFactory.getLogger(WebbitServerImpl.class);
     protected Worker<ServerEvent> worker;
 
-    public ServerImpl(Worker<ServerEvent> worker, int port) {
+    public WebbitServerImpl(Worker<ServerEvent> worker, int port) {
         try {
             webServer = WebServers.createWebServer(port)
                     .add(new StaticFileHandler(getClass().getResource("/html").toURI().getPath()))
@@ -52,25 +53,25 @@ public class ServerImpl extends BaseWebSocketHandler implements Server {
 
     @Override
     public void onOpen(WebSocketConnection webSocketConnection) {
-        notifyWorker(ServerEventType.OPEN, webSocketConnection, "");
+        notifyWorker(ServerEventType.OPEN, new WebbitConnection(webSocketConnection), "");
     }
 
     @Override
     public void onClose(WebSocketConnection webSocketConnection) {
-        notifyWorker(ServerEventType.CLOSE, webSocketConnection, "");
+        notifyWorker(ServerEventType.CLOSE, new WebbitConnection(webSocketConnection), "");
     }
 
     @Override
     public void onMessage(WebSocketConnection webSocketConnection, String s) throws Throwable {
-        notifyWorker(ServerEventType.MESSAGE, webSocketConnection, s);
+        notifyWorker(ServerEventType.MESSAGE, new WebbitConnection(webSocketConnection), s);
     }
 
     @Override
     public void onPing(WebSocketConnection webSocketConnection, byte[] bytes) throws Throwable {
-        notifyWorker(ServerEventType.PING, webSocketConnection, "Ping");
+        notifyWorker(ServerEventType.PING, new WebbitConnection(webSocketConnection), "Ping");
     }
 
-    private void notifyWorker(ServerEventType eventType, WebSocketConnection connection, String message) {
+    private void notifyWorker(ServerEventType eventType, Connection connection, String message) {
         this.notifyWorker(new ServerEventImpl(message, connection, eventType));
     }
 

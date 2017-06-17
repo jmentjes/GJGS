@@ -5,4 +5,20 @@ package de.github.GSGJ.API.usermanagement;
  */
 public class User {
     //TODO implement user class
+
+    @Override
+    public int hashCode(){
+        //TODO implement hashCode method to use maps correctly
+        return 0;
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        //TODO implement equals method
+        if(obj instanceof User){
+            User otherUser = (User) obj;
+        }
+
+        return false;
+    }
 }

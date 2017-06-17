@@ -8,7 +8,7 @@ import org.webbitserver.WebSocketConnection;
 public interface ServerEvent {
     String getMessage();
 
-    WebSocketConnection getConnection();
+    Connection getConnection();
 
     ServerEventType getEventType();
 }
