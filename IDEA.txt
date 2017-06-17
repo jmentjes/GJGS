@@ -1,0 +1,24 @@
+Client-Server Communication
+-> Webbit which accepts connections from web sockets
+
+DataBase Stuff
+-> Hibernate as framework
+-> Database objects
+    -> Users
+    -> Clans/Groups etc
+
+General Stuff
+-> Structure of the server should be like an event based system
+-> Server is completly independent of the game itself
+
+
+Features
+-> Usermanagement
+    -> Login
+    -> Logout
+    -> Handle own data
+-> Lobbymanagement
+    -> Create / Delete / Change Lobbies
+-> GameManagement
+    -> Run GameLogic
+    -> Uses GameApi to run the game
