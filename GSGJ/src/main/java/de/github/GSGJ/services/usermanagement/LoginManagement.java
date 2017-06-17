@@ -8,5 +8,6 @@ import org.json.simple.JSONObject;
  */
 public interface LoginManagement {
     void login(User user, JSONObject object);
+
     void logout(User user, JSONObject object);
 }

@@ -1,14 +1,19 @@
-package de.github.GSGJ.structure;
+package de.github.GSGJ;
 
+import de.github.GSGJ.API.service.GSGJServiceRegistry;
+import de.github.GSGJ.API.service.Service;
+import de.github.GSGJ.API.structure.ServerEvent;
+import de.github.GSGJ.API.worker.AbstractWorker;
 import de.github.GSGJ.services.AbstractBaseService;
 import de.github.GSGJ.services.BaseService;
-import de.github.GSGJ.API.service.Service;
-import de.github.GSGJ.API.worker.AbstractWorker;
-import de.github.GSGJ.API.structure.ServerEvent;
-import de.github.GSGJ.API.service.GSGJServiceRegistry;
+import de.github.GSGJ.services.BaseServiceSettings;
 import de.github.GSGJ.services.chatmanagement.ChatManagementService;
 import de.github.GSGJ.services.gamemanagement.GameManagementService;
 import de.github.GSGJ.services.lobbymanagement.LobbyManagementService;
+import de.github.GSGJ.services.registry.ChatRegistry;
+import de.github.GSGJ.services.registry.GameRegistry;
+import de.github.GSGJ.services.registry.LobbyRegistry;
+import de.github.GSGJ.services.registry.UserRegistry;
 import de.github.GSGJ.services.requestmanagement.RequestManagementService;
 import de.github.GSGJ.services.usermanagement.UserManagementService;
 
@@ -18,25 +23,33 @@ import java.util.List;
 /**
  * Created by Kojy on 17.06.2017.
  */
-public class GSGJWorker extends AbstractWorker<ServerEvent> implements GSGJServiceRegistry{
+public class GSGJWorker extends AbstractWorker<ServerEvent> implements GSGJServiceRegistry {
     private List<Service> services;
     private List<AbstractBaseService> baseServices;
 
-    public GSGJWorker(){
+    public GSGJWorker() {
         this.services = new LinkedList<>();
         this.baseServices = new LinkedList<>();
         initBaseServices();
     }
 
-    private void initBaseServices(){
-        createThread(new UserManagementService(this));
-        createThread(new LobbyManagementService(this));
-        createThread(new GameManagementService(this));
-        createThread(new ChatManagementService(this));
-        createThread(new RequestManagementService(this));
+    private void initBaseServices() {
+        BaseServiceSettings baseServiceSettings = new BaseServiceSettings(
+                this,
+                new UserRegistry(),
+                new GameRegistry(),
+                new LobbyRegistry(),
+                new ChatRegistry()
+        );
+
+        createThread(new UserManagementService(baseServiceSettings));
+        createThread(new LobbyManagementService(baseServiceSettings));
+        createThread(new GameManagementService(baseServiceSettings));
+        createThread(new ChatManagementService(baseServiceSettings));
+        createThread(new RequestManagementService(baseServiceSettings));
     }
 
-    private void createThread(AbstractBaseService service){
+    private void createThread(AbstractBaseService service) {
         Thread t = new Thread(service);
         t.setDaemon(true);
         t.start();
@@ -44,13 +57,13 @@ public class GSGJWorker extends AbstractWorker<ServerEvent> implements GSGJServi
 
     @Override
     public void handle(ServerEvent obj) {
-        logger.debug("Incoming message {}",obj);
+        logger.debug("Incoming message {}", obj);
         notifyBaseServices(obj);
         notifyServices(obj);
     }
 
-    private void notifyBaseServices(ServerEvent event){
-        for (BaseService baseService : baseServices){
+    private void notifyBaseServices(ServerEvent event) {
+        for (BaseService baseService : baseServices) {
             baseService.handleEvent(event);
         }
     }
@@ -63,8 +76,8 @@ public class GSGJWorker extends AbstractWorker<ServerEvent> implements GSGJServi
 
     @Override
     public Service getServiceByID(String id) {
-        for (Service service : services){
-            if (service.getID().equals(id)){
+        for (Service service : services) {
+            if (service.getID().equals(id)) {
                 return service;
             }
         }
@@ -85,22 +98,22 @@ public class GSGJWorker extends AbstractWorker<ServerEvent> implements GSGJServi
     public void removeService(String id) {
         Service toRemove = null;
 
-        for (Service service : services){
-            if(service.getID().equals(id)){
+        for (Service service : services) {
+            if (service.getID().equals(id)) {
                 toRemove = service;
                 break;
             }
         }
 
-        if(toRemove != null){
+        if (toRemove != null) {
             services.remove(toRemove);
         }
     }
 
     @Override
-    public Service getBaseService(String id){
-        for (BaseService baseService : baseServices){
-            if(baseService.getID().equals(id)){
+    public Service getBaseService(String id) {
+        for (BaseService baseService : baseServices) {
+            if (baseService.getID().equals(id)) {
                 return baseService;
             }
         }

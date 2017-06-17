@@ -8,5 +8,6 @@ import org.json.simple.JSONObject;
  */
 public interface RegisterManagement {
     void register(User user, JSONObject object);
+
     void delete(User user, JSONObject object);
 }

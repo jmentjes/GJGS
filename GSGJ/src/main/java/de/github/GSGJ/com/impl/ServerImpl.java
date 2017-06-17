@@ -1,10 +1,10 @@
 package de.github.GSGJ.com.impl;
 
-import de.github.GSGJ.API.worker.Worker;
 import de.github.GSGJ.API.structure.ServerEvent;
 import de.github.GSGJ.API.structure.ServerEventType;
+import de.github.GSGJ.API.worker.Worker;
 import de.github.GSGJ.com.Server;
-import de.github.GSGJ.structure.ServerEventImpl;
+import de.github.GSGJ.com.ServerEventImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.webbitserver.BaseWebSocketHandler;
@@ -70,11 +70,11 @@ public class ServerImpl extends BaseWebSocketHandler implements Server {
         notifyWorker(ServerEventType.PING, webSocketConnection, "Ping");
     }
 
-    private void notifyWorker(ServerEventType eventType, WebSocketConnection connection, String message){
+    private void notifyWorker(ServerEventType eventType, WebSocketConnection connection, String message) {
         this.notifyWorker(new ServerEventImpl(message, connection, eventType));
     }
 
-    private void notifyWorker(ServerEvent event){
+    private void notifyWorker(ServerEvent event) {
         this.worker.processData(event);
     }
 

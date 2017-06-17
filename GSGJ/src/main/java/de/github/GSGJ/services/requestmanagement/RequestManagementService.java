@@ -1,16 +1,16 @@
 package de.github.GSGJ.services.requestmanagement;
 
-import de.github.GSGJ.API.service.GSGJServiceRegistry;
 import de.github.GSGJ.API.structure.ServerEvent;
 import de.github.GSGJ.services.AbstractBaseService;
+import de.github.GSGJ.services.BaseServiceSettings;
 
 /**
  * Created by Kojy on 17.06.2017.
  */
 public class RequestManagementService extends AbstractBaseService {
 
-    public RequestManagementService(GSGJServiceRegistry serviceRegistry) {
-        super(serviceRegistry);
+    public RequestManagementService(BaseServiceSettings baseServiceSettings) {
+        super(baseServiceSettings);
     }
 
     @Override

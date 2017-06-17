@@ -1,4 +1,4 @@
-package de.github.GSGJ.structure;
+package de.github.GSGJ.com;
 
 import de.github.GSGJ.API.structure.ServerEvent;
 import de.github.GSGJ.API.structure.ServerEventType;
