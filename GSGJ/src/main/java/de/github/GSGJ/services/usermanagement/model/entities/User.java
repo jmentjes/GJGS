@@ -1,4 +1,4 @@
-package de.github.GSGJ.API.usermanagement.entities;
+package de.github.GSGJ.services.usermanagement.model.entities;
 
 import java.util.ArrayList;
 
@@ -13,6 +13,13 @@ public class User {
 
     public User(int id, String name, String email, ArrayList<Usergroup> groups) {
         this.id = id;
+        this.name = name;
+        this.email = email;
+        this.groups = groups;
+    }
+
+    public User(String name, String email, ArrayList<Usergroup> groups) {
+        this.id = -1;
         this.name = name;
         this.email = email;
         this.groups = groups;

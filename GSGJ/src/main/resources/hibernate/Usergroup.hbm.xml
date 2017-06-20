@@ -4,15 +4,15 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="de.github.GSGJ.API.usermanagement.entities.User" table="user">
+    <class name="de.github.GSGJ.services.usermanagement.model.entities.Usergroup" table="usergroup">
         <meta attribute="class-description">
-            This class contains the user detail.
+            This class contains the usergroup detail.
         </meta>
         <id name="id" type="int" column="id">
             <generator class="native"/>
         </id>
         <property name="name" column="name" type="string"/>
-        <property name="email" column="email" type="string"/>
-        <property name="groups" column="groups" type="serializable"/>
+        <property name="owner" column="owner" type="int"/>
+        <property name="users" column="users" type="serializable"/>
     </class>
 </hibernate-mapping>

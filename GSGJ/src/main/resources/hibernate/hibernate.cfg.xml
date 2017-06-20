@@ -23,8 +23,8 @@
         </property>
 
         <!-- List of XML mapping files -->
-        <mapping resource="User.hbm.xml"/>
-        <mapping resource="Usergroup.hbm.xml"/>
+        <mapping resource="hibernate/User.hbm.xmler.hbm.xml"/>
+        <mapping resource="hibernate/Usergroup.hbm.xmlup.hbm.xml"/>
 
     </session-factory>
 </hibernate-configuration>

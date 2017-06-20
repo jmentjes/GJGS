@@ -1,9 +1,7 @@
-package de.github.GSGJ.API.usermanagement.events;
+package de.github.GSGJ.services.usermanagement.model.events;
 
 import de.github.GSGJ.API.service.Event;
-import de.github.GSGJ.API.service.EventListener;
 import de.github.GSGJ.API.usermanagement.User;
-import de.github.GSGJ.API.usermanagement.UserEventType;
 import org.json.simple.JSONObject;
 
 /**
@@ -16,7 +14,7 @@ public class UserEvent implements Event {
     @Override
     public Class<Event> getEventClass() {
         try {
-            return (Class<Event>) this.getClass();
+//            return (Class<Event>) this.getClass();
         } catch(ClassCastException exc) {
             exc.printStackTrace();
         }

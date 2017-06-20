@@ -1,4 +1,4 @@
-package de.github.GSGJ.API.usermanagement.entities;
+package de.github.GSGJ.services.usermanagement.model.entities;
 
 import java.util.ArrayList;
 
