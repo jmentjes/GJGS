@@ -25,7 +25,7 @@ import java.util.List;
  */
 public class GSGJWorker extends AbstractWorker<ServerEvent> implements GSGJServiceRegistry {
     private List<Service> services;
-    private List<AbstractBaseService> baseServices;
+    private List<BaseService> baseServices;
 
     public GSGJWorker() {
         this.services = new LinkedList<>();
@@ -53,26 +53,29 @@ public class GSGJWorker extends AbstractWorker<ServerEvent> implements GSGJServi
         Thread t = new Thread(service);
         t.setDaemon(true);
         t.start();
+
+        this.baseServices.add(service);
     }
 
     @Override
     public void handle(ServerEvent obj) {
         logger.debug("Incoming message {}", obj);
-        notifyBaseServices(obj);
-        notifyServices(obj);
-    }
 
-    private void notifyBaseServices(ServerEvent event) {
+        String serviceID = (String) obj.getJSON().get("service");
         for (BaseService baseService : baseServices) {
-            baseService.handleEvent(event);
+            if(baseService.getID().equals(serviceID)) {
+                baseService.handleEvent(obj);
+                return;
+            }
+        }
+
+        for (Service service : services){
+            if(service.getID().equals(serviceID)){
+                service.handleEvent(obj);
+            }
         }
     }
 
-    private void notifyServices(ServerEvent event) {
-        for (Service service : services) {
-            service.handleEvent(event);
-        }
-    }
 
     @Override
     public Service getServiceByID(String id) {

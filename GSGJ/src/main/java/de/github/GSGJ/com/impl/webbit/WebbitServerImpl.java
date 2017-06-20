@@ -6,6 +6,9 @@ import de.github.GSGJ.API.worker.Worker;
 import de.github.GSGJ.API.structure.Connection;
 import de.github.GSGJ.com.Server;
 import de.github.GSGJ.com.impl.ServerEventImpl;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.webbitserver.BaseWebSocketHandler;
@@ -24,6 +27,7 @@ public class WebbitServerImpl extends BaseWebSocketHandler implements Server {
     protected WebServer webServer;
     protected Logger logger = LoggerFactory.getLogger(WebbitServerImpl.class);
     protected Worker<ServerEvent> worker;
+    protected JSONParser jsonParser;
 
     public WebbitServerImpl(Worker<ServerEvent> worker, int port) {
         try {
@@ -38,6 +42,7 @@ public class WebbitServerImpl extends BaseWebSocketHandler implements Server {
             e.printStackTrace();
         }
         this.worker = worker;
+        this.jsonParser = new JSONParser();
         logger.info("Hello World from Server! Server is running on {}", webServer.getUri().toString());
     }
 
@@ -72,7 +77,11 @@ public class WebbitServerImpl extends BaseWebSocketHandler implements Server {
     }
 
     private void notifyWorker(ServerEventType eventType, Connection connection, String message) {
-        this.notifyWorker(new ServerEventImpl(message, connection, eventType));
+        try {
+            this.notifyWorker(new ServerEventImpl((JSONObject) jsonParser.parse(message), connection, eventType));
+        } catch (ParseException e) {
+            logger.error(e.getMessage(),e);
+        }
     }
 
     private void notifyWorker(ServerEvent event) {

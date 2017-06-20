@@ -1,6 +1,5 @@
 package de.github.GSGJ.com.impl.webbit;
 
-import de.github.GSGJ.API.structure.Connection;
 import de.github.GSGJ.com.impl.AbstractConnection;
 import org.json.simple.JSONObject;
 import org.webbitserver.WebSocketConnection;
@@ -19,7 +18,7 @@ public class WebbitConnection extends AbstractConnection {
 
     @Override
     public void send(JSONObject jsonObject) {
-        //TODO implement send method
+        webSocketConnection.send(jsonObject.toJSONString());
     }
 
     @Override

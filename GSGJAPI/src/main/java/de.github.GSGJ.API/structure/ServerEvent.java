@@ -1,12 +1,12 @@
 package de.github.GSGJ.API.structure;
 
-import org.webbitserver.WebSocketConnection;
+import org.json.simple.JSONObject;
 
 /**
  * Created by Kojy on 17.06.2017.
  */
 public interface ServerEvent {
-    String getMessage();
+    JSONObject getJSON();
 
     Connection getConnection();
 
