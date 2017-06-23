@@ -5,9 +5,10 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 
 
-public class TimeStampEncoder extends MessageToByteEncoder<LoopBackTimeStamp> {
+public class TimeStampEncoder extends MessageToByteEncoder {
+
     @Override
-    protected void encode(ChannelHandlerContext ctx, LoopBackTimeStamp msg, ByteBuf out) throws Exception {
-        out.writeBytes(msg.toByteArray());
+    protected void encode(ChannelHandlerContext channelHandlerContext, Object o, ByteBuf byteBuf) throws Exception {
+        //TODO implement encoding
     }
 }

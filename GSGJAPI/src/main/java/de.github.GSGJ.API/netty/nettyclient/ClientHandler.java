@@ -8,8 +8,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        LoopBackTimeStamp ts = (LoopBackTimeStamp) msg;
-        ctx.writeAndFlush(ts); //recieved message sent back directly
+        //TODO implement clienthandler
     }
 
     @Override

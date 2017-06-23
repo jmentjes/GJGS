@@ -1,4 +1,4 @@
-package de.github.GSGJ.com.impl;
+package de.github.GSGJ.com;
 
 import de.github.GSGJ.API.structure.Connection;
 

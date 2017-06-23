@@ -15,11 +15,12 @@ public class TimeStampDecoder extends ByteToMessageDecoder {
         if (in.readableBytes() < messageLength) {
             return;
         }
+        //TODO implement decoding
 
-        byte [] ba = new byte[messageLength];
-        in.readBytes(ba, 0, messageLength);  // block until read 16 bytes from sockets
-        LoopBackTimeStamp loopBackTimeStamp = new LoopBackTimeStamp();
-        loopBackTimeStamp.fromByteArray(ba);
-        out.add(loopBackTimeStamp);
+//        byte [] ba = new byte[messageLength];
+//        in.readBytes(ba, 0, messageLength);  // block until read 16 bytes from sockets
+//        LoopBackTimeStamp loopBackTimeStamp = new LoopBackTimeStamp();
+//        loopBackTimeStamp.fromByteArray(ba);
+//        out.add(loopBackTimeStamp);
     }
 }

@@ -28,32 +28,46 @@ public class WebbitServerImpl extends BaseWebSocketHandler implements Server {
     protected Logger logger = LoggerFactory.getLogger(WebbitServerImpl.class);
     protected Worker<ServerEvent> worker;
     protected JSONParser jsonParser;
+    protected int port;
+    protected String address;
 
-    public WebbitServerImpl(Worker<ServerEvent> worker, int port) {
+    public WebbitServerImpl(Worker<ServerEvent> worker,String address, int port) {
         try {
             webServer = WebServers.createWebServer(port)
                     .add(new StaticFileHandler(getClass().getResource("/html").toURI().getPath()))
-                    .add("/server", this)
-                    .start()
-                    .get();
-        } catch (InterruptedException | ExecutionException e) {
-            logger.error(e.getMessage(), e);
+                    .add("/server", this);
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
         this.worker = worker;
         this.jsonParser = new JSONParser();
+        this.port = port;
+        this.address = address;
         logger.info("Hello World from Server! Server is running on {}", webServer.getUri().toString());
     }
 
     @Override
     public void start() {
-        this.webServer.start();
+        try {
+            this.webServer = this.webServer.start().get();
+        } catch (InterruptedException | ExecutionException e) {
+            logger.error(e.getMessage(),e);
+        }
     }
 
     @Override
     public void stop() {
         this.webServer.stop();
+    }
+
+    @Override
+    public int getPort() {
+        return port;
+    }
+
+    @Override
+    public String getAddress() {
+        return address;
     }
 
     @Override

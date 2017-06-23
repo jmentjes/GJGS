@@ -8,4 +8,6 @@ import org.webbitserver.WebSocketHandler;
 public interface Server {
     void start();
     void stop();
+    int getPort();
+    String getAddress();
 }

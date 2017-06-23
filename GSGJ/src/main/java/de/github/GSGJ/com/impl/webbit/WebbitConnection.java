@@ -1,6 +1,6 @@
 package de.github.GSGJ.com.impl.webbit;
 
-import de.github.GSGJ.com.impl.AbstractConnection;
+import de.github.GSGJ.com.AbstractConnection;
 import org.json.simple.JSONObject;
 import org.webbitserver.WebSocketConnection;
 

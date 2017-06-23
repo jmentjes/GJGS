@@ -12,6 +12,11 @@ import de.github.GSGJ.util.PropertyHandler;
 import de.github.GSGJ.util.PropertyHandlerImpl;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 /**
  * Created by Kojy on 17.06.2017.
@@ -24,6 +29,8 @@ public class GSGJ {
     protected MultipleServerManager multipleServerManager;
     protected Worker<ServerEvent> worker;
     protected PropertyHandler propertyHandler;
+    private static Logger logger = LoggerFactory.getLogger(GSGJ.class);
+
     public GSGJ() {
         this(false);
     }
@@ -41,25 +48,41 @@ public class GSGJ {
     }
 
     public void start() {
-        int port = Integer.parseInt(propertyHandler.read("server.port"));
-        //TODO handle multiple ports
-        Server netty = new NettyServerImpl(worker,port+1);
-        Server webbit = new WebbitServerImpl(worker, port);
+        int port = -1;
+        try {
+            port = Integer.parseInt(propertyHandler.read("server.port"));
+        }catch (NumberFormatException e){
+            logger.error(e.getMessage(),e);
+        }
+        if (port < 0){
+            logger.error("Can't start servers, port is invalid");
+            return;
+        }
+
+        Server netty = null;
+        Server webbit = null;
+        try {
+            netty = new NettyServerImpl(worker, InetAddress.getByName("localhost").getHostAddress(),port+1);
+            webbit = new WebbitServerImpl(worker,InetAddress.getByName("localhost").getHostAddress(), port);
+        } catch (UnknownHostException e) {
+            logger.error(e.getMessage(),e);
+        }
+
         multipleServerManager = new MultipleServerManager();
         multipleServerManager.addServer(netty);
         multipleServerManager.addServer(webbit);
 
+        multipleServerManager.startServers();
         initSettings();
     }
 
     private void initSettings() {
         //TODO init settings for db and stuff
         SessionFactory factory;
-        String filename = "";
         try{
             factory = new Configuration().configure("resources/hibernate/hibernate.cfg.xml").buildSessionFactory();
         }catch (Throwable ex) {
-            System.err.println("Failed to create sessionFactory object." + ex);
+            logger.error("Failed to create sessionFactory object." + ex);
             throw new ExceptionInInitializerError(ex);
         }
         UserRepository userRepository = new UserRepository(factory);

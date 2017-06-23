@@ -2,9 +2,9 @@ package de.github.GSGJ.com.impl.netty;
 
 import de.github.GSGJ.API.structure.ServerEvent;
 import de.github.GSGJ.API.worker.Worker;
-import de.github.GSGJ.com.Server;
 import de.github.GSGJ.API.netty.nettycom.TimeStampDecoder;
 import de.github.GSGJ.API.netty.nettycom.TimeStampEncoder;
+import de.github.GSGJ.com.AbstractServer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
@@ -21,16 +21,12 @@ import org.slf4j.LoggerFactory;
 /**
  * Created by Kojy on 18.06.2017.
  */
-public class NettyServerImpl implements Server {
-    private Logger logger = LoggerFactory.getLogger(NettyServerImpl.class);
-    private ServerBootstrap serverBootstrap;
-    private Worker<ServerEvent> worker;
-    private int port;
+public class NettyServerImpl extends AbstractServer {
+    protected Logger logger = LoggerFactory.getLogger(NettyServerImpl.class);
+    protected ServerBootstrap serverBootstrap;
 
-    public NettyServerImpl(Worker<ServerEvent> worker, int port){
-        this.port = port;
-        this.worker = worker;
-
+    public NettyServerImpl(Worker<ServerEvent> worker,String address, int port){
+        super(worker, address, port);
         NioEventLoopGroup boosGroup = new NioEventLoopGroup();
         NioEventLoopGroup workerGroup = new NioEventLoopGroup();
         serverBootstrap = new ServerBootstrap();
@@ -55,22 +51,21 @@ public class NettyServerImpl implements Server {
                 // 2. run handler with slow business logic
                 //    in separate thread from I/O thread
                 //===========================================================
-                pipeline.addLast(group,"serverHandler",new NettyServerHandler());
+                pipeline.addLast(group,"serverHandler",new NettyServerHandler(worker));
             }
         });
 
         serverBootstrap.childOption(ChannelOption.SO_KEEPALIVE, true);
+    }
+
+    @Override
+    public void start() {
         try {
             serverBootstrap.bind(port).sync();
         } catch (InterruptedException e) {
             logger.error(e.getMessage(),e);
         }
-        logger.info("Hello World from Server! Server is running on {}", port );
-    }
-
-    @Override
-    public void start() {
-
+        logger.info("Hello World from Server :) Server is running on {}", port );
     }
 
     @Override
