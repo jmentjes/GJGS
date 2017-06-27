@@ -1,7 +1,7 @@
-package de.github.GSGJ.services.usermanagement.model.events;
+package de.github.GSGJ.database.events;
 
 import de.github.GSGJ.API.service.Event;
-import de.github.GSGJ.services.usermanagement.model.entities.User;
+import de.github.GSGJ.database.entities.User;
 import org.json.simple.JSONObject;
 
 /**

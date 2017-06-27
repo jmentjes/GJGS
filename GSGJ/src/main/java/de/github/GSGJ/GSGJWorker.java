@@ -5,19 +5,21 @@ import de.github.GSGJ.API.service.GSGJServiceRegistry;
 import de.github.GSGJ.API.service.Service;
 import de.github.GSGJ.API.structure.ServerEvent;
 import de.github.GSGJ.API.worker.AbstractWorker;
+import de.github.GSGJ.database.repositories.UserRepository;
+import de.github.GSGJ.database.repositories.UsergroupRepository;
 import de.github.GSGJ.services.AbstractBaseService;
 import de.github.GSGJ.services.BaseService;
 import de.github.GSGJ.services.BaseServiceSettings;
 import de.github.GSGJ.services.chatmanagement.ChatManagementService;
 import de.github.GSGJ.services.gamemanagement.GameManagementService;
 import de.github.GSGJ.services.lobbymanagement.LobbyManagementService;
-import de.github.GSGJ.services.registry.ChatRegistry;
-import de.github.GSGJ.services.registry.GameRegistry;
-import de.github.GSGJ.services.registry.LobbyRegistry;
-import de.github.GSGJ.services.registry.UserRegistry;
+import de.github.GSGJ.services.registry.*;
 import de.github.GSGJ.services.requestmanagement.RequestManagementService;
 import de.github.GSGJ.services.usermanagement.UserManagementService;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -40,7 +42,8 @@ public class GSGJWorker extends AbstractWorker<ServerEvent> implements GSGJServi
                 new UserRegistry(),
                 new GameRegistry(),
                 new LobbyRegistry(),
-                new ChatRegistry()
+                new ChatRegistry(),
+                initDatabase()
         );
 
         createThread(new UserManagementService(baseServiceSettings));
@@ -48,6 +51,19 @@ public class GSGJWorker extends AbstractWorker<ServerEvent> implements GSGJServi
         createThread(new GameManagementService(baseServiceSettings));
         createThread(new ChatManagementService(baseServiceSettings));
         createThread(new RequestManagementService(baseServiceSettings));
+    }
+
+    private DatabaseRegistry initDatabase(){
+        SessionFactory factory;
+        try {
+            factory = new Configuration().configure("/hibernate/hibernate.cfg.xml").buildSessionFactory();
+        } catch (Throwable ex) {
+            logger.error("Failed to create sessionFactory object." + ex);
+            throw new ExceptionInInitializerError(ex);
+        }
+        UserRepository userRepository = new UserRepository(factory);
+        UsergroupRepository usergroupRepository = new UsergroupRepository();
+        return new DatabaseRegistry(userRepository,usergroupRepository);
     }
 
     private void createThread(AbstractBaseService service) {
@@ -78,7 +94,6 @@ public class GSGJWorker extends AbstractWorker<ServerEvent> implements GSGJServi
             }
         }
     }
-
 
     @Override
     public Service getServiceByID(String id) {

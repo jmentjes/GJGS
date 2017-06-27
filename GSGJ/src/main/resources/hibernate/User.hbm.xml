@@ -4,7 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="de.github.GSGJ.services.usermanagement.model.entities.User" table="user">
+    <class name="de.github.GSGJ.database.entities.User" table="user">
         <meta attribute="class-description">
             This class contains the user detail.
         </meta>
@@ -14,5 +14,6 @@
         <property name="name" column="name" type="string"/>
         <property name="email" column="email" type="string"/>
         <property name="groups" column="groups" type="serializable"/>
+        <property name="password" column="password" type="string"/>
     </class>
 </hibernate-mapping>

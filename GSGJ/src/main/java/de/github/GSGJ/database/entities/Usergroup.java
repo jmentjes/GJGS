@@ -1,4 +1,4 @@
-package de.github.GSGJ.services.usermanagement.model.entities;
+package de.github.GSGJ.database.entities;
 
 import java.util.ArrayList;
 
@@ -17,6 +17,9 @@ public class Usergroup {
         this.name = name;
         this.users = users;
         this.owner = owner;
+    }
+
+    public Usergroup() {
     }
 
     public int getId() {

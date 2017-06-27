@@ -1,7 +1,7 @@
 package de.github.GSGJ.services.registry;
 
 import de.github.GSGJ.API.structure.Connection;
-import de.github.GSGJ.services.usermanagement.model.entities.User;
+import de.github.GSGJ.database.entities.User;
 import org.webbitserver.WebSocketConnection;
 
 import java.util.HashMap;

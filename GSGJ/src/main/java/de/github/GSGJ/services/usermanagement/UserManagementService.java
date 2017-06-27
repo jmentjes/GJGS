@@ -7,7 +7,7 @@ import de.github.GSGJ.services.BaseServiceSettings;
 import de.github.GSGJ.services.usermanagement.impl.ChangeDataManagementImpl;
 import de.github.GSGJ.services.usermanagement.impl.LoginManagementImpl;
 import de.github.GSGJ.services.usermanagement.impl.RegisterManagementImpl;
-import de.github.GSGJ.services.usermanagement.model.entities.User;
+import de.github.GSGJ.database.entities.User;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,9 +24,9 @@ public class UserManagementService extends AbstractBaseService {
     public UserManagementService(BaseServiceSettings baseServiceSettings) {
         super(baseServiceSettings);
 
-        this.registerManagement = new RegisterManagementImpl();
-        this.loginManagement = new LoginManagementImpl();
-        this.changeDataManagement = new ChangeDataManagementImpl();
+        this.registerManagement = new RegisterManagementImpl(baseServiceSettings);
+        this.loginManagement = new LoginManagementImpl(baseServiceSettings);
+        this.changeDataManagement = new ChangeDataManagementImpl(baseServiceSettings);
     }
 
     @Override
@@ -43,10 +43,10 @@ public class UserManagementService extends AbstractBaseService {
         }
         switch (subject) {
             case "login":
-                loginManagement.login(user, jsonObject);
+                loginManagement.login(user, jsonObject, obj.getConnection());
                 break;
             case "logout":
-                loginManagement.logout(user, jsonObject);
+                loginManagement.logout(user, jsonObject, obj.getConnection());
                 break;
             case "register":
                 registerManagement.register(user, jsonObject);
@@ -69,12 +69,11 @@ public class UserManagementService extends AbstractBaseService {
     private User createUser(JSONObject jsonObject) {
         String username = (String) jsonObject.get(JSONCore.CORE.USERNAME.getId());
         String email = (String) jsonObject.get(JSONCore.CORE_USERMANAGEMENT.EMAIL.getId());
-
+        String password = (String) jsonObject.get(JSONCore.CORE_USERMANAGEMENT.PASSWORD.getId());
         if (username == null) {
             return null;
         }
-
-        return new User(0, username, email, null);
+        return new User(username,email,password);
     }
 
 

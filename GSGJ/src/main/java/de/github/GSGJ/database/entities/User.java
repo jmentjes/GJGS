@@ -1,4 +1,4 @@
-package de.github.GSGJ.services.usermanagement.model.entities;
+package de.github.GSGJ.database.entities;
 
 import java.util.ArrayList;
 
@@ -9,20 +9,28 @@ public class User {
     private int id;
     private String name;
     private String email;
+    private String password;
     private ArrayList<Usergroup> groups;
 
-    public User(int id, String name, String email, ArrayList<Usergroup> groups) {
+    public User(int id, String name, String email, String password, ArrayList<Usergroup> groups) {
         this.id = id;
         this.name = name;
         this.email = email;
+        this.password = password;
         this.groups = groups;
     }
 
-    public User(String name, String email, ArrayList<Usergroup> groups) {
-        this.id = -1;
+    public User(String name, String email, String password, ArrayList<Usergroup> groups) {
         this.name = name;
         this.email = email;
+        this.password = password;
         this.groups = groups;
+    }
+
+    public User(String name, String email, String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
     }
 
     public User() {
@@ -58,5 +66,19 @@ public class User {
 
     public void setGroups(ArrayList<Usergroup> groups) {
         this.groups = groups;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Override
+    public int hashCode(){
+        //TODO implement hash code for maps
+        return name.hashCode() + id;
     }
 }

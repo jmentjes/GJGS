@@ -4,7 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="de.github.GSGJ.services.usermanagement.model.entities.Usergroup" table="usergroup">
+    <class name="de.github.GSGJ.database.entities.Usergroup" table="usergroup">
         <meta attribute="class-description">
             This class contains the usergroup detail.
         </meta>
