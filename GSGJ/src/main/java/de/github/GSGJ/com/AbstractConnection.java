@@ -16,4 +16,9 @@ public abstract class AbstractConnection implements Connection {
 
         return false;
     }
+
+    @Override
+    public int hashCode(){
+        return getAddress().hashCode();
+    }
 }

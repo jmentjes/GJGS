@@ -5,7 +5,8 @@ package de.github.GSGJ.API.json;
  */
 public class JSONCore {
     public enum CORE {
-        SERVICE("service"), SUBJECT("subject"), USERNAME("username"), ERROR_MESSAGE("error-message"), PRIVATE_KEY("private-key"), SUCCESS("success");
+        SERVICE("service"), SUBJECT("subject"), USERNAME("username"), ERROR_MESSAGE("error-message"), PRIVATE_KEY("private-key"), SUCCESS("success"),
+        USER_ID("user-id");
 
         String id;
 

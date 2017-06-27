@@ -12,6 +12,7 @@
   //login to verify that this user is the user which is logged in
   "success": "true",
   // might be true or false
+  "user-id" : "123",
 
 
   "message": {

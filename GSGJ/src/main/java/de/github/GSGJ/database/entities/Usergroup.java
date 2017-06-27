@@ -53,4 +53,16 @@ public class Usergroup {
     public void setOwner(User owner) {
         this.owner = owner;
     }
+
+    @Override
+    public int hashCode(){
+        //TODO implement hash code for maps
+        return name.hashCode() + id;
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        //TODO
+        return super.equals(obj);
+    }
 }

@@ -1,5 +1,6 @@
 package de.github.GSGJ.services;
 
+import de.github.GSGJ.API.json.JSONCore;
 import de.github.GSGJ.API.structure.ServerEvent;
 import de.github.GSGJ.API.worker.AbstractWorker;
 
@@ -20,7 +21,12 @@ public abstract class AbstractBaseService extends AbstractWorker<ServerEvent> im
 
     @Override
     public void handleEvent(ServerEvent event) {
-        this.handle(event);
+        String privateKey = (String) event.getJSON().get(JSONCore.CORE.PRIVATE_KEY);
+        if(this.baseServiceSettings.getUserRegistry().containsPrivateKey(privateKey)) {
+            this.handle(event);
+        }else {
+            logger.error("PrivateKey not recognized");
+        }
     }
 
     @Override

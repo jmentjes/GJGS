@@ -30,6 +30,12 @@ public class UserManagementService extends AbstractBaseService {
     }
 
     @Override
+    public void handleEvent(ServerEvent event) {
+        //this method is overridden to avoid private key checking
+        this.handle(event);
+    }
+
+    @Override
     public void handle(ServerEvent obj) {
         JSONObject jsonObject = obj.getJSON();
         String subject = (String) jsonObject.get(JSONCore.CORE.SUBJECT.getId());
@@ -37,6 +43,7 @@ public class UserManagementService extends AbstractBaseService {
         logger.debug("Incoming message with subject {}", subject);
         User user = createUser(jsonObject);
         if (user == null) {
+            logger.debug("Cannot read json information");
             jsonObject.put("error-message", "Can't read user information");
             obj.getConnection().send(jsonObject);
             return;
@@ -70,11 +77,19 @@ public class UserManagementService extends AbstractBaseService {
         String username = (String) jsonObject.get(JSONCore.CORE.USERNAME.getId());
         String email = (String) jsonObject.get(JSONCore.CORE_USERMANAGEMENT.EMAIL.getId());
         String password = (String) jsonObject.get(JSONCore.CORE_USERMANAGEMENT.PASSWORD.getId());
+        String id = (String) jsonObject.get(JSONCore.CORE.USER_ID);
         if (username == null) {
             return null;
         }
-        return new User(username,email,password);
-    }
 
+        int numberID = -1;
+        try {
+          numberID = Integer.parseInt(id);
+        }catch (NumberFormatException e){
+
+        }
+
+        return new User(numberID,username,email,password);
+    }
 
 }

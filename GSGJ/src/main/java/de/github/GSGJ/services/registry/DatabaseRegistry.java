@@ -1,5 +1,6 @@
 package de.github.GSGJ.services.registry;
 
+import de.github.GSGJ.database.entities.User;
 import de.github.GSGJ.database.repositories.UserRepository;
 import de.github.GSGJ.database.repositories.UsergroupRepository;
 
@@ -22,5 +23,11 @@ public class DatabaseRegistry implements Registry {
 
     public UsergroupRepository getUsergroupRepository() {
         return usergroupRepository;
+    }
+
+    @Override
+    public boolean logoutUser(User user) {
+        //ignored
+        return true;
     }
 }

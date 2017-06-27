@@ -33,6 +33,13 @@ public class User {
         this.password = password;
     }
 
+    public User(int id, String name, String email, String password) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
+
     public User() {
     }
 
@@ -78,7 +85,15 @@ public class User {
 
     @Override
     public int hashCode(){
-        //TODO implement hash code for maps
-        return name.hashCode() + id;
+        return id;
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if(obj instanceof User){
+            User user = (User) obj;
+            return user.getId() == this.getId();
+        }
+        return super.equals(obj);
     }
 }
