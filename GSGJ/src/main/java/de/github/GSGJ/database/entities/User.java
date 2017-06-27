@@ -1,5 +1,8 @@
 package de.github.GSGJ.database.entities;
 
+import de.github.GSGJ.API.json.JSONCore;
+import org.json.simple.JSONObject;
+
 import java.util.ArrayList;
 
 /**
@@ -95,5 +98,13 @@ public class User {
             return user.getId() == this.getId();
         }
         return super.equals(obj);
+    }
+
+    public static User createUserFromJson(JSONObject jsonObject){
+        int id = Integer.parseInt((String) jsonObject.get(JSONCore.CORE.USER_ID.getId()));
+        String name = (String) jsonObject.get(JSONCore.CORE.USERNAME.getId());
+        String email = (String) jsonObject.get(JSONCore.CORE_USERMANAGEMENT.EMAIL.getId());
+        String password = (String) jsonObject.get(JSONCore.CORE_USERMANAGEMENT.PASSWORD.getId());
+        return new User(id,name,email,password);
     }
 }

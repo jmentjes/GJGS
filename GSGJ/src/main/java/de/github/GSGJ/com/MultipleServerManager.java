@@ -59,7 +59,4 @@ public class MultipleServerManager {
             }
         }
     }
-
-    //TODO add more stuff for multiple severs like port verification and single ip
-
 }
