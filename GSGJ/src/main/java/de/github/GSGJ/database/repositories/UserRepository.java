@@ -117,17 +117,4 @@ public class UserRepository implements Repository {
 
         return (User) list.get(0);
     }
-
-    public static void main(String... args){
-        SessionFactory factory;
-        try {
-            factory = new Configuration().configure("/hibernate/hibernate.cfg.xml").buildSessionFactory();
-        } catch (Throwable ex) {
-            logger.error("Failed to create sessionFactory object." + ex);
-            throw new ExceptionInInitializerError(ex);
-        }
-        UserRepository userRepository = new UserRepository(factory);
-        System.out.println(userRepository.findByID(3).getName());
-    }
-
 }

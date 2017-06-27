@@ -77,7 +77,7 @@ public class UserManagementService extends AbstractBaseService {
         String username = (String) jsonObject.get(JSONCore.CORE.USERNAME.getId());
         String email = (String) jsonObject.get(JSONCore.CORE_USERMANAGEMENT.EMAIL.getId());
         String password = (String) jsonObject.get(JSONCore.CORE_USERMANAGEMENT.PASSWORD.getId());
-        String id = (String) jsonObject.get(JSONCore.CORE.USER_ID);
+        String id = (String) jsonObject.get(JSONCore.CORE.USER_ID.getId());
         if (username == null) {
             return null;
         }

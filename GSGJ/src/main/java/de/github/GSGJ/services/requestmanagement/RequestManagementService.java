@@ -16,5 +16,6 @@ public class RequestManagementService extends AbstractBaseService {
     @Override
     public void handle(ServerEvent obj) {
         //TODO implement requestmanagment which can be used to request something like logged in users
+        //TODO implement something like listeners for clients, notify is xy changes
     }
 }

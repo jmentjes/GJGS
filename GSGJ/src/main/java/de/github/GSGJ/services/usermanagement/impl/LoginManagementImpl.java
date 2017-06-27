@@ -72,7 +72,7 @@ public class LoginManagementImpl implements LoginManagement {
                     object.put(JSONCore.CORE.USER_ID.getId(),String.valueOf(user.getId()));
                     object.remove(JSONCore.CORE_USERMANAGEMENT.PASSWORD.getId());
 
-                    baseServiceSettings.getUserRegistry().addUser(user,connection, privateKey);
+                    baseServiceSettings.getUserRegistry().addUser(user, connection, privateKey);
                 }
             }else {
                 object.put(JSONCore.CORE.ERROR_MESSAGE.getId(), "Username or password is incorrect");
@@ -102,7 +102,7 @@ public class LoginManagementImpl implements LoginManagement {
                 }
             }
         }else {
-            object.put(JSONCore.CORE.ERROR_MESSAGE.getId(), "Can't logout user");
+            object.put(JSONCore.CORE.ERROR_MESSAGE.getId(), "Private key is wrong");
             object.put(JSONCore.CORE.SUCCESS.getId(),"false");
             return;
         }
