@@ -52,15 +52,40 @@ public class UserRepository implements Repository {
         return id;
     }
 
-//    public int updateUser(User user) {
-//        Session session = sessionFactory.openSession();
-//        Transaction tx = null;
-//        int id = 0;
-//    }
-//
-//    public int deleteUser(User user) {
-//
-//    }
+    public void deleteUser(User user){
+        Session session = sessionFactory.openSession();
+        user = findByID(user.getId());
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            session.delete(user);
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            logger.error(e.getMessage(), e);
+        } finally {
+            session.close();
+        }
+    }
+
+    public void updateUser(User user){
+        Session session = sessionFactory.openSession();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            session.update(user);
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            logger.error(e.getMessage(), e);
+        } finally {
+            session.close();
+        }
+    }
 
 
 

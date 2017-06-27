@@ -53,17 +53,8 @@
       //additional register information
       "rights": "admin,user"
       //user rights for a specific game
-    },
-    "change-data": {
-      //changing data of sending user
-      "attribute": "password",
-      //attribute to change
-      "oldValue": "karlson",
-      //old value
-      "newValue": "karlso"
-      //new value
     }
-  }
+  },
 
   "request": {
   }

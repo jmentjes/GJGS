@@ -95,6 +95,7 @@ public class LoginManagementImpl implements LoginManagement {
                 if(!registry.logoutUser(user)){
                     object.put(JSONCore.CORE.ERROR_MESSAGE.getId(), "Can't logout user");
                     object.put(JSONCore.CORE.SUCCESS.getId(),"false");
+                    return;
                 }else {
                     object.remove(JSONCore.CORE.ERROR_MESSAGE.getId());
                     object.put(JSONCore.CORE.SUCCESS.getId(),"true");
@@ -103,6 +104,7 @@ public class LoginManagementImpl implements LoginManagement {
         }else {
             object.put(JSONCore.CORE.ERROR_MESSAGE.getId(), "Can't logout user");
             object.put(JSONCore.CORE.SUCCESS.getId(),"false");
+            return;
         }
     }
 

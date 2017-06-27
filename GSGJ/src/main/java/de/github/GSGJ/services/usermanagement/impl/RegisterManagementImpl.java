@@ -5,6 +5,7 @@ import de.github.GSGJ.API.util.UsermanagementUtil;
 import de.github.GSGJ.database.repositories.UserRepository;
 import de.github.GSGJ.services.BaseServiceSettings;
 import de.github.GSGJ.services.registry.DatabaseRegistry;
+import de.github.GSGJ.services.registry.Registry;
 import de.github.GSGJ.services.registry.UserRegistry;
 import de.github.GSGJ.services.usermanagement.RegisterManagement;
 import de.github.GSGJ.database.entities.User;
@@ -59,7 +60,33 @@ public class RegisterManagementImpl implements RegisterManagement {
 
     @Override
     public void delete(User user, JSONObject object) {
-        //TODO delete user
+        String key = (String) object.get(JSONCore.CORE.PRIVATE_KEY.getId());
+        if(key == null){
+            object.put(JSONCore.CORE.ERROR_MESSAGE.getId(), "Private key is not specified");
+            object.put(JSONCore.CORE.SUCCESS.getId(),"false");
+            return;
+        }
+
+        if(baseServiceSettings.getUserRegistry().containsPrivateKey(key)){
+            for (Registry registry : baseServiceSettings.getList()){
+                if(!registry.logoutUser(user)){
+                    object.put(JSONCore.CORE.ERROR_MESSAGE.getId(), "Can't delete user");
+                    object.put(JSONCore.CORE.SUCCESS.getId(),"false");
+                    break;
+                }else {
+                    object.remove(JSONCore.CORE.ERROR_MESSAGE.getId());
+                    object.put(JSONCore.CORE.SUCCESS.getId(),"true");
+                }
+            }
+        }else {
+            object.put(JSONCore.CORE.ERROR_MESSAGE.getId(), "Can't delete user, private key is wrong");
+            object.put(JSONCore.CORE.SUCCESS.getId(),"false");
+        }
+
+        if(!object.get(JSONCore.CORE.SUCCESS.getId()).equals("false")){
+            baseServiceSettings.getDatabaseRegistry().getUserRepository().deleteUser(user);
+            object.put(JSONCore.CORE.SUCCESS.getId(),"true");
+        }
     }
 
 }
