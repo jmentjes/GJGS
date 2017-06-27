@@ -13,47 +13,47 @@ public class MultipleServerManager {
     private Logger logger = LoggerFactory.getLogger(MultipleServerManager.class);
     private List<Server> serverList;
 
-    public MultipleServerManager(){
+    public MultipleServerManager() {
         this(new LinkedList<>());
     }
 
-    public MultipleServerManager(List<Server> serverList){
-        if(serverList == null){
+    public MultipleServerManager(List<Server> serverList) {
+        if (serverList == null) {
             this.serverList = new LinkedList<>();
-        }else {
+        } else {
             this.serverList = serverList;
         }
         checkServers();
     }
 
-    public void addServer(Server server){
+    public void addServer(Server server) {
         this.serverList.add(server);
         checkServers();
     }
 
-    public void startServers(){
+    public void startServers() {
         checkServers();
-        for (Server server : serverList){
+        for (Server server : serverList) {
             server.start();
         }
     }
 
-    public void stopServers(){
+    public void stopServers() {
         checkServers();
-        for (Server server : serverList){
+        for (Server server : serverList) {
             server.stop();
         }
     }
 
-    private void checkServers(){
-        for (Server server : serverList){
+    private void checkServers() {
+        for (Server server : serverList) {
             int port = server.getPort();
             String address = server.getAddress();
-            for (Server other : serverList){
-                if (!other.equals(server) && port == other.getPort()){
+            for (Server other : serverList) {
+                if (!other.equals(server) && port == other.getPort()) {
                     logger.error("Multiple servers are running on the same port");
                 }
-                if(!address.equals(other.getAddress())){
+                if (!address.equals(other.getAddress())) {
                     logger.error("Multiple servers are not running on the same address");
                 }
             }

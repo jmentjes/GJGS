@@ -1,8 +1,8 @@
 package de.github.GSGJ.com.impl;
 
+import de.github.GSGJ.API.structure.Connection;
 import de.github.GSGJ.API.structure.ServerEvent;
 import de.github.GSGJ.API.structure.ServerEventType;
-import de.github.GSGJ.API.structure.Connection;
 import org.json.simple.JSONObject;
 
 /**

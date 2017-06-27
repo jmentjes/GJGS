@@ -1,7 +1,7 @@
 package de.github.GSGJ.services.usermanagement.impl;
 
-import de.github.GSGJ.API.usermanagement.User;
 import de.github.GSGJ.services.usermanagement.RegisterManagement;
+import de.github.GSGJ.services.usermanagement.model.entities.User;
 import org.json.simple.JSONObject;
 
 /**

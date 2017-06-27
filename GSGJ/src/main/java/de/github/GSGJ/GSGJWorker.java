@@ -1,5 +1,6 @@
 package de.github.GSGJ;
 
+import de.github.GSGJ.API.json.JSONCore;
 import de.github.GSGJ.API.service.GSGJServiceRegistry;
 import de.github.GSGJ.API.service.Service;
 import de.github.GSGJ.API.structure.ServerEvent;
@@ -59,18 +60,20 @@ public class GSGJWorker extends AbstractWorker<ServerEvent> implements GSGJServi
 
     @Override
     public void handle(ServerEvent obj) {
-        logger.debug("Incoming message {}", obj);
+        String serviceID = (String) obj.getJSON().get(JSONCore.CORE.SERVICE.getId());
+        if (serviceID == null) return;
 
-        String serviceID = (String) obj.getJSON().get("service");
+        logger.debug("Incoming message with id {} ", serviceID);
+
         for (BaseService baseService : baseServices) {
-            if(baseService.getID().equals(serviceID)) {
+            if (baseService.getID().equals(serviceID)) {
                 baseService.handleEvent(obj);
                 return;
             }
         }
 
-        for (Service service : services){
-            if(service.getID().equals(serviceID)){
+        for (Service service : services) {
+            if (service.getID().equals(serviceID)) {
                 service.handleEvent(obj);
             }
         }

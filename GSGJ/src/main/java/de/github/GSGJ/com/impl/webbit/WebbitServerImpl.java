@@ -1,9 +1,9 @@
 package de.github.GSGJ.com.impl.webbit;
 
+import de.github.GSGJ.API.structure.Connection;
 import de.github.GSGJ.API.structure.ServerEvent;
 import de.github.GSGJ.API.structure.ServerEventType;
 import de.github.GSGJ.API.worker.Worker;
-import de.github.GSGJ.API.structure.Connection;
 import de.github.GSGJ.com.Server;
 import de.github.GSGJ.com.impl.ServerEventImpl;
 import org.json.simple.JSONObject;
@@ -31,7 +31,7 @@ public class WebbitServerImpl extends BaseWebSocketHandler implements Server {
     protected int port;
     protected String address;
 
-    public WebbitServerImpl(Worker<ServerEvent> worker,String address, int port) {
+    public WebbitServerImpl(Worker<ServerEvent> worker, String address, int port) {
         try {
             webServer = WebServers.createWebServer(port)
                     .add(new StaticFileHandler(getClass().getResource("/html").toURI().getPath()))
@@ -51,7 +51,7 @@ public class WebbitServerImpl extends BaseWebSocketHandler implements Server {
         try {
             this.webServer = this.webServer.start().get();
         } catch (InterruptedException | ExecutionException e) {
-            logger.error(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
         }
     }
 
@@ -94,7 +94,7 @@ public class WebbitServerImpl extends BaseWebSocketHandler implements Server {
         try {
             this.notifyWorker(new ServerEventImpl((JSONObject) jsonParser.parse(message), connection, eventType));
         } catch (ParseException e) {
-            logger.error(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
         }
     }
 

@@ -9,5 +9,6 @@ import java.net.SocketAddress;
  */
 public interface Connection {
     void send(JSONObject jsonObject);
+
     SocketAddress getAddress();
 }

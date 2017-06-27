@@ -13,13 +13,13 @@
 
         <!-- Assume test is the database name -->
         <property name="hibernate.connection.url">
-            jdbc:mysql://localhost/test
+            jdbc:mysql://localhost/test?serverTimezone=UTC
         </property>
         <property name="hibernate.connection.username">
             root
         </property>
         <property name="hibernate.connection.password">
-            superpasswort21
+
         </property>
 
         <!-- List of XML mapping files -->

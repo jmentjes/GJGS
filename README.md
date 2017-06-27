@@ -30,3 +30,7 @@ BaseService Class:
 - could be something like User-, Lobby-, GameManagement
 
 
+Notes:
+Netty communication is provides by biasedbit:
+https://github.com/biasedbit/netty-tutorials
+

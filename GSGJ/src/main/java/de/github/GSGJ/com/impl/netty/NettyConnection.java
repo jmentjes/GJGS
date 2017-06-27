@@ -1,7 +1,10 @@
 package de.github.GSGJ.com.impl.netty;
 
+import de.github.GSGJ.API.netty.nettycom.Envelope;
+import de.github.GSGJ.API.netty.nettycom.Type;
+import de.github.GSGJ.API.netty.nettycom.Version;
 import de.github.GSGJ.com.AbstractConnection;
-import io.netty.channel.ChannelHandlerContext;
+import org.jboss.netty.channel.Channel;
 import org.json.simple.JSONObject;
 
 import java.net.SocketAddress;
@@ -10,19 +13,21 @@ import java.net.SocketAddress;
  * Created by Kojy on 18.06.2017.
  */
 public class NettyConnection extends AbstractConnection {
-    private ChannelHandlerContext channelHandlerContext;
+    private Channel channel;
 
-    public NettyConnection(ChannelHandlerContext handlerContext){
-        this.channelHandlerContext = handlerContext;
+    public NettyConnection(Channel channel) {
+        this.channel = channel;
     }
 
     @Override
     public void send(JSONObject jsonObject) {
-        this.channelHandlerContext.write(jsonObject.toJSONString());
+        if (this.channel != null) {
+            this.channel.write(new Envelope(Version.VERSION1, Type.REQUEST, jsonObject.toJSONString().getBytes()));
+        }
     }
 
     @Override
     public SocketAddress getAddress() {
-        return channelHandlerContext.channel().remoteAddress();
+        return channel.getRemoteAddress();
     }
 }

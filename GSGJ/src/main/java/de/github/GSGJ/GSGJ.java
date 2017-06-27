@@ -2,11 +2,10 @@ package de.github.GSGJ;
 
 import de.github.GSGJ.API.structure.ServerEvent;
 import de.github.GSGJ.API.worker.Worker;
-import de.github.GSGJ.com.Server;
 import de.github.GSGJ.com.MultipleServerManager;
+import de.github.GSGJ.com.Server;
 import de.github.GSGJ.com.impl.netty.NettyServerImpl;
 import de.github.GSGJ.com.impl.webbit.WebbitServerImpl;
-import de.github.GSGJ.services.usermanagement.model.entities.User;
 import de.github.GSGJ.services.usermanagement.model.repositories.UserRepository;
 import de.github.GSGJ.util.PropertyHandler;
 import de.github.GSGJ.util.PropertyHandlerImpl;
@@ -17,19 +16,17 @@ import org.slf4j.LoggerFactory;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 /**
  * Created by Kojy on 17.06.2017.
  */
 public class GSGJ {
 
-    public static void main(String... args) {
-        new GSGJ();
-    }
+    private static Logger logger = LoggerFactory.getLogger(GSGJ.class);
     protected MultipleServerManager multipleServerManager;
     protected Worker<ServerEvent> worker;
     protected PropertyHandler propertyHandler;
-    private static Logger logger = LoggerFactory.getLogger(GSGJ.class);
 
     public GSGJ() {
         this(false);
@@ -47,14 +44,18 @@ public class GSGJ {
         }
     }
 
+    public static void main(String... args) {
+        new GSGJ();
+    }
+
     public void start() {
         int port = -1;
         try {
             port = Integer.parseInt(propertyHandler.read("server.port"));
-        }catch (NumberFormatException e){
-            logger.error(e.getMessage(),e);
+        } catch (NumberFormatException e) {
+            logger.error(e.getMessage(), e);
         }
-        if (port < 0){
+        if (port < 0) {
             logger.error("Can't start servers, port is invalid");
             return;
         }
@@ -62,10 +63,10 @@ public class GSGJ {
         Server netty = null;
         Server webbit = null;
         try {
-            netty = new NettyServerImpl(worker, InetAddress.getByName("localhost").getHostAddress(),port+1);
-            webbit = new WebbitServerImpl(worker,InetAddress.getByName("localhost").getHostAddress(), port);
+            netty = new NettyServerImpl(worker, InetAddress.getByName("localhost").getHostAddress(), port + 1);
+            webbit = new WebbitServerImpl(worker, InetAddress.getByName("localhost").getHostAddress(), port);
         } catch (UnknownHostException e) {
-            logger.error(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
         }
 
         multipleServerManager = new MultipleServerManager();
@@ -79,16 +80,15 @@ public class GSGJ {
     private void initSettings() {
         //TODO init settings for db and stuff
         SessionFactory factory;
-        try{
-            factory = new Configuration().configure("resources/hibernate/hibernate.cfg.xml").buildSessionFactory();
-        }catch (Throwable ex) {
+        try {
+            factory = new Configuration().configure("/hibernate/hibernate.cfg.xml").buildSessionFactory();
+        } catch (Throwable ex) {
             logger.error("Failed to create sessionFactory object." + ex);
             throw new ExceptionInInitializerError(ex);
         }
         UserRepository userRepository = new UserRepository(factory);
 
-        int id = userRepository.addUser("hans", "§dieter", null);
-
+        int id = userRepository.addUser("hans", "§dieter", new ArrayList<>());
 
     }
 }

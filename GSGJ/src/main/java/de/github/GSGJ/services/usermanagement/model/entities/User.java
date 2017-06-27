@@ -25,6 +25,9 @@ public class User {
         this.groups = groups;
     }
 
+    public User() {
+    }
+
     public int getId() {
         return id;
     }

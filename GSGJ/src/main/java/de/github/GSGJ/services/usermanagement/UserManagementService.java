@@ -1,12 +1,13 @@
 package de.github.GSGJ.services.usermanagement;
 
+import de.github.GSGJ.API.json.JSONCore;
 import de.github.GSGJ.API.structure.ServerEvent;
-import de.github.GSGJ.API.usermanagement.User;
 import de.github.GSGJ.services.AbstractBaseService;
 import de.github.GSGJ.services.BaseServiceSettings;
 import de.github.GSGJ.services.usermanagement.impl.ChangeDataManagementImpl;
 import de.github.GSGJ.services.usermanagement.impl.LoginManagementImpl;
 import de.github.GSGJ.services.usermanagement.impl.RegisterManagementImpl;
+import de.github.GSGJ.services.usermanagement.model.entities.User;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,34 +32,50 @@ public class UserManagementService extends AbstractBaseService {
     @Override
     public void handle(ServerEvent obj) {
         JSONObject jsonObject = obj.getJSON();
-        String subject = (String) jsonObject.get("subject");
+        String subject = (String) jsonObject.get(JSONCore.CORE.SUBJECT.getId());
+
+        logger.debug("Incoming message with subject {}", subject);
         User user = createUser(jsonObject);
-        switch (subject){
+        if (user == null) {
+            jsonObject.put("error-message", "Can't read user information");
+            obj.getConnection().send(jsonObject);
+            return;
+        }
+        switch (subject) {
             case "login":
-                loginManagement.login(user,jsonObject);
+                loginManagement.login(user, jsonObject);
                 break;
             case "logout":
-                loginManagement.logout(user,jsonObject);
+                loginManagement.logout(user, jsonObject);
                 break;
             case "register":
-                registerManagement.register(user,jsonObject);
+                registerManagement.register(user, jsonObject);
                 break;
             case "delete":
-                registerManagement.delete(user,jsonObject);
+                registerManagement.delete(user, jsonObject);
                 break;
             case "change-data":
-                changeDataManagement.changeData(user,jsonObject);
+                changeDataManagement.changeData(user, jsonObject);
                 break;
             default:
-                logger.error("Subject not recognized: "+subject);
-                jsonObject.put("error-message","Subject not recognized");
-                obj.getConnection().send(jsonObject);
+                logger.error("Subject not recognized: " + subject);
+                jsonObject.put("error-message", "Subject not recognized");
                 break;
         }
+
+        obj.getConnection().send(jsonObject);
     }
 
     private User createUser(JSONObject jsonObject) {
-        //TODO create User Object
-        return null;
+        String username = (String) jsonObject.get(JSONCore.CORE.USERNAME.getId());
+        String email = (String) jsonObject.get(JSONCore.CORE_USERMANAGEMENT.EMAIL.getId());
+
+        if (username == null) {
+            return null;
+        }
+
+        return new User(0, username, email, null);
     }
+
+
 }

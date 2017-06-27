@@ -3,5 +3,5 @@ package de.github.GSGJ.services.registry;
 /**
  * Created by Kojy on 17.06.2017.
  */
-public class LobbyRegistry implements Registry{
+public class LobbyRegistry implements Registry {
 }

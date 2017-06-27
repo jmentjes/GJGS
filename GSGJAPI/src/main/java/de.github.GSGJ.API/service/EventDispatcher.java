@@ -29,7 +29,7 @@ public class EventDispatcher {
         if (listeners.containsKey(eventClass)) {
             ArrayList<EventListener> eventListeners = listeners.get(eventClass);
             if (!eventListeners.isEmpty()) {
-                for (EventListener evtListener: eventListeners) {
+                for (EventListener evtListener : eventListeners) {
                     evtListener.onEventDispatch(event);
                 }
             }

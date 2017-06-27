@@ -6,6 +6,8 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 
@@ -13,7 +15,7 @@ import java.util.ArrayList;
  * Created by claudio on 19.06.17.
  */
 public class UserRepository {
-
+    private static Logger logger = LoggerFactory.getLogger(UserRepository.class);
     private static SessionFactory sessionFactory;
 
     public UserRepository(SessionFactory factory) {
@@ -30,10 +32,10 @@ public class UserRepository {
             id = (int) session.save(user);
             tx.commit();
         } catch (HibernateException e) {
-            if (tx!=null) {
+            if (tx != null) {
                 tx.rollback();
             }
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         } finally {
             session.close();
         }

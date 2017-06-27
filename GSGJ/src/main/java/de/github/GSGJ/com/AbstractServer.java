@@ -11,19 +11,19 @@ public abstract class AbstractServer implements Server {
     protected int port;
     protected String address;
 
-    public AbstractServer(Worker<ServerEvent> worker,String address, int port){
+    public AbstractServer(Worker<ServerEvent> worker, String address, int port) {
         this.worker = worker;
         this.port = port;
         this.address = address;
     }
 
     @Override
-    public int getPort(){
+    public int getPort() {
         return port;
     }
 
     @Override
-    public String getAddress(){
+    public String getAddress() {
         return address;
     }
 }

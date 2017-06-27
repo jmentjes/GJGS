@@ -1,50 +1,69 @@
 {
-  "service" : "service id", //service id, base services have ids like de.gihub.GSGJ.services...
-  "subject" : "subject reference", //like login/logout/start-game etc etc
-  "username" : "username", //username of sending user
-  "error-message" : "Ups something went wrong", //gets send back if an error occured
-  "private-key" : "217fd2skl312hja213", //will be send back as authentification key, will be checked on each message after
+  "service": "service id",
+  //service id, base services have ids like de.gihub.GSGJ.services...
+  "subject": "subject reference",
+  //like login/logout/start-game etc etc
+  "username": "username",
+  //username of sending user
+  "error-message": "Ups something went wrong",
+  //gets send back if an error occured
+  "private-key": "217fd2skl312hja213",
+  //will be send back as authentification key, will be checked on each message after
   //login to verify that this user is the user which is logged in
+  "success": "true",
+  // might be true or false
 
 
-  "message" : { //used for chat messages
-    "chat-id" : "roborally:chat-id", //id for the target chat
-    "message" : "Hello World :)" //message
+  "message": {
+    //used for chat messages
+    "chat-id": "roborally:chat-id",
+    //id for the target chat
+    "chat-message": "Hello World :)"
+    //message
   },
-
-  "game" : { //used for game messages
-    "game-id" : "roborally:game-id", //id for the target game
-    "objects" : { //additional objects for defined plugin
-      "object1" : "object1",
-      "object2" : "object2"
+  "game": {
+    //used for game messages
+    "game-id": "roborally:game-id",
+    //id for the target game
+    "objects": {
+      //additional objects for defined plugin
+      "object1": "object1",
+      "object2": "object2"
     }
   },
-
-  "lobby" : { //used for lobby messages
-    "lobby-id" : "roborally:lobby-id", //id for the target lobby
-    "objects" : { //additional objects for configuration on client
-      "object1" : "object1",
-      "object2" : "object2"
+  "lobby": {
+    //used for lobby messages
+    "lobby-id": "roborally:lobby-id",
+    //id for the target lobby
+    "objects": {
+      //additional objects for configuration on client
+      "object1": "object1",
+      "object2": "object2"
     }
   },
+  "usermanagement": {
+    //used for usermanagment
+    "password": "password",
+    //user password of sending user
+    "email": "email",
+    //user email
 
-  "usermanagement" : { //used for usermanagment
-    "username" : "username", //username of sending user
-    "password" : "password", //user password of sending user
-
-    "register" : { //additional register information
-      "rights" :  "admin,user" //user rights for a specific game
+    "register": {
+      //additional register information
+      "rights": "admin,user"
+      //user rights for a specific game
     },
-
-    "change-data" : { //changing data of sending user
-      "attribute" : "password", //attribute to change
-      "oldValue" : "karlson", //old value
-      "newValue" : "karlso" //new value
+    "change-data": {
+      //changing data of sending user
+      "attribute": "password",
+      //attribute to change
+      "oldValue": "karlson",
+      //old value
+      "newValue": "karlso"
+      //new value
     }
   }
 
-  "request" : {
-
+  "request": {
   }
-
 }
