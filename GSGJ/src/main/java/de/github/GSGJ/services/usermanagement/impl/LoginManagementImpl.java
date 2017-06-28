@@ -42,7 +42,6 @@ public class LoginManagementImpl implements LoginManagement {
             object.put(JSONCore.CORE.SUCCESS.getId(),"false");
             return;
         }else {
-
             UserRepository userRepository = baseServiceSettings.getDatabaseRegistry().getUserRepository();
             List others = userRepository.findByNameAndPw(user.getName(),user.getPassword());
             if(others.size() != 1){

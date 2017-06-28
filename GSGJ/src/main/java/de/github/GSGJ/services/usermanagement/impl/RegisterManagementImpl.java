@@ -32,7 +32,6 @@ public class RegisterManagementImpl implements RegisterManagement {
         boolean uEmail = UsermanagementUtil.checkEmail(user.getEmail());
         if(!uName || !uPW || !uEmail){
             object.put(JSONCore.CORE.SUCCESS.getId(),"false");
-
             if(!uName){
                 object.put(JSONCore.CORE.ERROR_MESSAGE.getId(),"Can't save username");
             }else if (!uPW){
@@ -42,18 +41,16 @@ public class RegisterManagementImpl implements RegisterManagement {
             }
 
         }else {
+            user.setPassword(UsermanagementUtil.generateHashPassword(user.getPassword()));
             UserRepository userRepository = this.baseServiceSettings.getDatabaseRegistry().getUserRepository();
             List<User> list = userRepository.findByNameAndPw(user.getName(),user.getPassword());
-
             if(list.size() != 0){
                 object.put(JSONCore.CORE.SUCCESS.getId(),"false");
                 object.put(JSONCore.CORE.ERROR_MESSAGE.getId(),"User already exists");
                 return;
             }
-
             object.put(JSONCore.CORE.SUCCESS.getId(),"true");
             DatabaseRegistry databaseRegistry = baseServiceSettings.getDatabaseRegistry();
-            user.setPassword(UsermanagementUtil.generateHashPassword(user.getPassword()));
             databaseRegistry.getUserRepository().registerUser(user);
         }
     }
